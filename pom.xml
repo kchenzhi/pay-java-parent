@@ -105,14 +105,16 @@
 
     </dependencyManagement>
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>maven-releases</id>
+            <name>jm-releases</name>
+            <url>http://mvn.jinmailife.com/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>jm-snapshots</name>
+            <url>http://mvn.jinmailife.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
     <build>
         <plugins>
@@ -124,6 +126,18 @@
                     <target>1.7</target>
                     <encoding>utf-8</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
          <!--  <plugin>
                 <groupId>org.sonatype.plugins</groupId>

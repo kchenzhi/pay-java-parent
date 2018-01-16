@@ -13,12 +13,14 @@ import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.common.http.UriVariables;
 import com.egzosn.pay.common.util.MatrixToImageWriter;
 import com.egzosn.pay.common.util.sign.SignUtils;
+import com.egzosn.pay.common.util.str.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -169,6 +171,15 @@ public class AliPayService extends BasePayService {
         orderInfo.put("notify_url", payConfigStorage.getNotifyUrl());
         orderInfo.put("format", "json");
 
+        String body = order.getBody();
+        if (!StringUtils.isEmpty(body)) {
+            try {
+                body = URLEncoder.encode(body, "utf-8");
+                orderInfo.put("passback_params", body);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
 
         Map<String, Object> bizContent = new TreeMap<>();
         bizContent.put("body", order.getBody());
